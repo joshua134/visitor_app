@@ -1,16 +1,8 @@
 .git
 .gitignore
-*.log
-*.tmp
-*.swp
-.idea/
-*.iml
-.settings/
-.project
-.classpath
-.vscode/
-src/
-pom.xml
-mvnw
-mvnw.cmd
-.DS_Store
+.fly
+fly.toml
+
+# Ignore everything inside target EXCEPT the compiled executable jar
+target/*
+!target/*.jar
