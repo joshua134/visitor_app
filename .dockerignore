@@ -2,7 +2,4 @@
 .gitignore
 .fly
 fly.toml
-
-# Ignore everything inside target EXCEPT the compiled executable jar
-target/*
-!target/*.jar
+target/
