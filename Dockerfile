@@ -1,5 +1,5 @@
 #FROM maven:3.9.6-eclipse-temurin-25-alpine AS build
-FROM maven:3.9.6-eclipse-temurin-25 AS build
+FROM maven:3.9.16-eclipse-temurin-25 AS build
 WORKDIR /build
 
 # Copy build config and source code
