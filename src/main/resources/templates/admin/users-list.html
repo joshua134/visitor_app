@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/admin-header :: head('Users')}"></head>
+<body class="bg-gray-100">
+    <nav th:replace="~{fragments/admin-header :: navbar(${username}, ${role})}"></nav>
+    
+    <div class="container mx-auto px-4 py-8">
+        <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">System Users</h1>
+                <p class="text-gray-600">Manage user accounts and permissions</p>
+            </div>
+            <a href="/admin/users/invite" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">+ Invite User</a>
+        </div>
+        
+        <!-- Search -->
+        <div class="bg-white rounded-lg shadow p-4 mb-6">
+            <form method="get" class="flex flex-col sm:flex-row gap-3">
+                <input type="text" name="search" placeholder="Search by name or email..." 
+                       class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                       th:value="${searchTerm}">
+                <div class="flex gap-2">
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Search</button>
+                    <a href="/admin/users" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Reset</a>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Users Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr th:each="user : ${users}">
+                            <td class="px-6 py-4 text-sm font-medium text-gray-900" th:text="${user.name}"></td>
+                            <td class="px-6 py-4 text-sm text-gray-600" th:text="${user.email}"></td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs font-medium rounded-full"
+                                      th:class="${user.roleName == 'ADMIN' ? 'bg-purple-100 text-purple-800' : (user.roleName == 'MANAGER' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800')}"
+                                      th:text="${user.roleName}"></span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span th:if="${user.enabled}" class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">Active</span>
+                                <span th:unless="${user.enabled}" class="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">Disabled</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-wrap gap-2">
+                                    <a th:href="@{/admin/users/{id}/change-role(id=${user.id})}" 
+                                       class="text-blue-600 hover:text-blue-800 text-sm">Change Role</a>
+                                    <form th:if="${user.enabled}" th:action="@{/admin/users/disable/{id}(id=${user.id})}" method="post" class="inline">
+                                        <button type="submit" class="text-red-600 hover:text-red-800 text-sm">Disable</button>
+                                    </form>
+                                    <form th:unless="${user.enabled}" th:action="@{/admin/users/enable/{id}(id=${user.id})}" method="post" class="inline">
+                                        <button type="submit" class="text-green-600 hover:text-green-800 text-sm">Enable</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${users == null || users.empty}">
+                            <td colspan="5" class="px-6 py-8 text-center text-gray-500">No users found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

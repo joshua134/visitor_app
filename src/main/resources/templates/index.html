@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Home')}"></head>
+<body class="bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <!--<div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                    </div>-->
+                    <span class="text-xl font-bold text-gray-800">VisitorMS</span>
+                </div>
+				<div>
+					<a href="/login" 
+				       class="group flex items-center space-x-2 px-4 py-2 text-gray-700 hover:text-blue-600 transition-all duration-300">
+				        <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+				        </svg>
+				        <span
+						class="px-5 py-2 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 font-medium"
+						>Login</span>
+				    </a>
+				</div>
+            </div>
+        </div>
+    </nav>
+
+	<!-- Hero Section -->
+	<div class="container mx-auto px-4 py-8 sm:py-12 md:py-16 lg:py-20">
+	    <div class="text-center">
+	        <h1 class="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-3 sm:mb-4 md:mb-6">
+	            Welcome to <span class="text-blue-600">Visitor Management System</span>
+	        </h1>
+	        <p class="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto px-2 sm:px-4">
+	            Simple, Efficient, and modern visitor registration for your organization
+	        </p>
+	    </div>
+	</div>
+
+    <!-- Registration Form Section -->
+    <div id="register" class="container mx-auto px-4 py-8">
+        <div class="max-w-3xl mx-auto">
+            <div class="card">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Visitor Registration</h2>
+                <p class="text-gray-600 text-center mb-6">Please fill in all required fields</p>
+                
+                <!-- Success/Error Messages -->
+                <div th:if="${successMessage}" class="alert-success mb-6 slide-in">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span th:text="${successMessage}"></span>
+                    </div>
+                </div>
+                
+                <div th:if="${errorMessage}" class="alert-error mb-6 slide-in">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <span th:text="${errorMessage}"></span>
+                    </div>
+                </div>
+                
+                <form th:action="@{/register}" th:object="${visitor}" method="post" class="space-y-6" id="registerForm">
+                    <!-- Personal Information -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">Personal Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="input-label">First Name <span class="text-red-500">*</span></label>
+                                <input type="text" th:field="*{firstName}" class="input-field" placeholder="Enter first name">
+                                <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-red-500 text-sm mt-1"></p>
+                            </div>
+                            
+                            <div>
+                                <label class="input-label">Last Name <span class="text-red-500">*</span></label>
+                                <input type="text" th:field="*{lastName}" class="input-field" placeholder="Enter last name">
+                                <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-red-500 text-sm mt-1"></p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <div>
+                                <label class="input-label">Date of Birth <span class="text-red-500">*</span></label>
+                                <input type="date" th:field="*{dateOfBirth}" class="input-field">
+                                <p th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="text-red-500 text-sm mt-1"></p>
+                            </div>
+                            
+                            <div>
+                                <label class="input-label">Gender <span class="text-red-500">*</span></label>
+                                <select th:field="*{gender}" class="input-field">
+                                    <option value="">Select Gender</option>
+                                    <option value="MALE">Male</option>
+                                    <option value="FEMALE">Female</option>
+                                    <option value="OTHER">Other</option>
+                                </select>
+                                <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="text-red-500 text-sm mt-1"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">Contact Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="input-label">National ID/Passport <span class="text-red-500">*</span></label>
+                                <input type="text" th:field="*{nationalId}" class="input-field" placeholder="Enter National ID or Passport Number">
+                                <p th:if="${#fields.hasErrors('nationalId')}" th:errors="*{nationalId}" class="text-red-500 text-sm mt-1"></p>
+                            </div>
+                            
+                            <div>
+                                <label class="input-label">Phone Number <span class="text-red-500">*</span></label>
+                                <input type="tel" th:field="*{phoneNumber}" class="input-field" placeholder="+1234567890">
+                                <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="text-red-500 text-sm mt-1"></p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label class="input-label">Email Address <span class="text-red-500">*</span></label>
+                            <input type="email" th:field="*{email}" class="input-field" placeholder="your@email.com">
+                            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-500 text-sm mt-1"></p>
+                        </div>
+                    </div>  
+                    <!-- CAPTCHA -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">Security Verification</h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-3 sm:space-y-0">
+                                <div class="flex-1">
+                                    <label class="input-label">Enter CAPTCHA Code <span class="text-red-500">*</span></label>
+                                    <input type="text" th:field="*{captcha}" class="input-field" placeholder="Enter the code shown above">
+                                    <p th:if="${#fields.hasErrors('captcha')}" th:errors="*{captcha}" class="text-red-500 text-sm mt-1"></p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <div class="relative">
+                                        <img id="captchaImage" th:src="@{/captcha-image}" alt="CAPTCHA" 
+                                             class="rounded-lg border border-gray-300 h-14 w-48 object-contain cursor-pointer"
+                                             onclick="refreshCaptcha()">
+                                        <button type="button" onclick="refreshCaptcha()" 
+                                                class="absolute top-1/2 -right-8 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-all">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1 text-center">Click to refresh</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="text-center pt-4">
+                        <button type="submit" class="btn-primary px-8 py-3 text-lg transition-all hover:scale-105">
+                            Register Now
+                        </button>
+                    </div>
+                </form>
+           
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-500 mt-16 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm" >&copy; <span th:text="${#dates.year(#dates.createNow())}"></span> Visitor Management System. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        function refreshCaptcha() {
+            const captchaImage = document.getElementById('captchaImage');
+            // Add timestamp to prevent caching
+            captchaImage.src = '/captcha-image?' + new Date().getTime();
+        }
+        
+        // Optional: Auto-refresh CAPTCHA on form submit error
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registerForm');
+            const captchaInput = document.querySelector('[name="captcha"]');
+            
+            if (form && captchaInput) {
+                // Clear CAPTCHA input on refresh
+                const refreshBtn = document.querySelector('[onclick="refreshCaptcha()"]');
+                if (refreshBtn) {
+                    refreshBtn.addEventListener('click', function() {
+                        captchaInput.value = '';
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
