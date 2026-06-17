@@ -1,0 +1,16 @@
+.git
+.gitignore
+*.log
+*.tmp
+*.swp
+.idea/
+*.iml
+.settings/
+.project
+.classpath
+.vscode/
+src/
+pom.xml
+mvnw
+mvnw.cmd
+.DS_Store
