@@ -1,0 +1,59 @@
+<!-- admin/print-view.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Visitors Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+            table { border-collapse: collapse; width: 100%; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; }
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="no-print mb-4">
+        <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded">Print</button>
+        <button onclick="window.close()" class="bg-gray-600 text-white px-4 py-2 rounded ml-2">Close</button>
+    </div>
+    
+    <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold">Visitor Management System</h1>
+        <h2 class="text-xl">Visitors Report</h2>
+        <p>Generated on: <span th:text="${generatedDate}"></span></p>
+        <p>Date Range: <span th:text="${dateRange}"></span></p>
+        <p>Total Visitors: <span th:text="${totalVisitors}"></span></p>
+    </div>
+    
+    <table class="w-full border-collapse border border-gray-300">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border border-gray-300 px-4 py-2">ID</th>
+                <th class="border border-gray-300 px-4 py-2">Name</th>
+                <th class="border border-gray-300 px-4 py-2">Email</th>
+                <th class="border border-gray-300 px-4 py-2">Phone</th>
+                <th class="border border-gray-300 px-4 py-2">National ID</th>
+                <th class="border border-gray-300 px-4 py-2">Gender</th>
+                <th class="border border-gray-300 px-4 py-2">Age</th>
+                <th class="border border-gray-300 px-4 py-2">Registration Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="visitor : ${visitors}">
+                <td class="border border-gray-300 px-4 py-2" th:text="${visitor.id}"></td>
+                <td class="border border-gray-300 px-4 py-2" th:text="${visitor.fullName}"></td>
+                <td class="border border-gray-300 px-4 py-2" th:text="${visitor.email}"></td>
+                <td class="border border-gray-300 px-4 py-2" th:text="${visitor.phoneNumber}"></td>
+                <td class="border border-gray-300 px-4 py-2" th:text="${visitor.nationalId}"></td>
+                <td class="border border-gray-300 px-4 py-2" th:text="${visitor.gender}"></td>
+                <td class="border border-gray-300 px-4 py-2" th:text="${visitor.age} + ' Y/O'"></td>
+                <td class="border border-gray-300 px-4 py-2" th:text="${visitor.registrationDate}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
